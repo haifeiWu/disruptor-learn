@@ -6,8 +6,8 @@ package cn.whfroever.disruptor;
  * @author wuhaifei
  * @date 2018-08-15
  */
-public class LongEventConsumer {
-    public LongEventConsumer(LongEvent event) {
+public class DataEventConsumer {
+    public DataEventConsumer(DataEvent event) {
         // 业务逻辑
         System.out.println("event : " + event.getValue());
     }

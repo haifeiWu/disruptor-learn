@@ -4,7 +4,7 @@ package cn.whfroever.disruptor;
  * @author wuhf
  * @Date 2018/8/14 16:17
  **/
-public class LongEvent {
+public class DataEvent {
     private long value;
 
     public void set(long value) {
