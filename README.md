@@ -160,7 +160,7 @@ Disruptor 通过精巧的无锁设计实现了在高并发情形下的高性能�
 另外在Log4j 2中的异步模式采用了Disruptor来处理。在这里楼主遇到一个小问题，就是在使用Log4j 2通过 TCP 模式往 logstash 发日志数据的时候，由于网络问题导致链接中断，从而导致 Log4j 2 不停的往 ringbuffer 中写数据，ringbuffer数据没有消费者，导致服务器内存跑满。解决方案是设置 Log4j 2 中 Disruptor 队列有界，或者换成 UDP 模式来写日志数据（如果数据不重要的话）。  
 
 ## 参考链接
-- [剖析Disruptor:为什么会这么快？(二)神奇的缓存行填充](http://ifeve.com/disruptor-cacheline-padding/)
-- [高性能队列——Disruptor](https://tech.meituan.com/disruptor.html)
+- [剖析Disruptor:为什么会这么快？(二)神奇的缓存行填充](https://www.hchstudio.cn/article/2018/51ba/)
+- [高性能队列——Disruptor](https://www.hchstudio.cn/article/2018/51ba/)
 
-![关注我们](http://img.hchstudio.cn/CodePig-QRCode.jpg)
+![关注我们](https://img.hchstudio.cn/CodePig-QRCode.jpg)
