@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +24,9 @@ public class DisruptorManager {
 
     private final static Logger LOG = LoggerFactory.getLogger(DisruptorManager.class);
 
-    /*消费者线程池*/
+    /**
+     * 消费者线程池
+     */
     private static ExecutorService threadPool;
     private static Disruptor<DataEvent> disruptor;
     private static RingBuffer<DataEvent> ringBuffer;
@@ -32,23 +35,19 @@ public class DisruptorManager {
 
     private static AtomicLong dataNum = new AtomicLong();
 
-    public static void init(EventHandler<DataEvent> eventHandler) {
+    public static void init(List<EventHandler<DataEvent>> eventHandlerList) {
 //        MqManager.dataDecoder = dataDecoder;
 
         //初始化disruptor
         threadPool = Executors.newCachedThreadPool();
-        disruptor = new Disruptor<>(new DataEventFactory(), 8 * 1024, threadPool, ProducerType.MULTI, new BlockingWaitStrategy());
+//        disruptor = new Disruptor<>(new DataEventFactory(), 8 * 1024, threadPool, ProducerType.MULTI, new BlockingWaitStrategy());
+        disruptor = new Disruptor<>(new DataEventFactory(), 8 * 1024, threadPool);
 
         ringBuffer = disruptor.getRingBuffer();
-        disruptor.handleEventsWith(eventHandler);
+        for (EventHandler<DataEvent> eventHandler : eventHandlerList) {
+            disruptor.handleEventsWith(eventHandler);
+        }
         disruptor.start();
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                LOG.info("放入队列中数据编号{},队列剩余空间{}", dataNum.get(), ringBuffer.remainingCapacity());
-            }
-        }, new Date(), 60 * 1000);
     }
 
     /**

@@ -14,4 +14,11 @@ public class DataEvent {
     public long getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "DataEvent{" +
+                "value=" + value +
+                '}';
+    }
 }
